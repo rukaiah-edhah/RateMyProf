@@ -1,11 +1,8 @@
-import { ChatbotUI } from "@/components/chatbot-ui";
-
-export default function Home() {
+export default function LandingPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <ChatbotUI/>
-      </div>
-    </main>
+    <iframe
+      src="/LandingPage/index.html"
+      style={{ width: "100%", height: "100vh", border: "none" }}
+    ></iframe>
   );
 }
