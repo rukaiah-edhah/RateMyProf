@@ -40,51 +40,45 @@ export async function continueConversation(messages: CoreMessage[]){
   })
 
   const index = pc.index('rag').namespace('ns1')
+
+  const lastMessage = messages[messages.length - 1]
+  const lastMessageContent: any = lastMessage.content
+
   const model =  google.embedding('text-embedding-004', {
     outputDimensionality: 1536,
   })
-
-  const text = messages[messages.length - 1].content
-  const embedding = await model.doEmbed(text)
+  
+  const embedding = await model.doEmbed(lastMessageContent)
 
   const results = await index.query({
     topK: 3,
     includeMetadata: true,
-    vector: messages[messages.length - 1],
+    vector: embedding,
   })
 
-  let resultString = 
-  '\n\nReturned results from vector db (done automatically):'
-
-  results.matches.forEach((match) => {
-    resultString += `\n
-    Professor: ${match.id}
-    Review: ${match.metadata?.stars}
-    Subject: ${match.metadata?.subject}
-    Stars: ${match.metadata?.stars}
-    \n\n
-    `
-  })
-
-  const lastMessage = messages[messages.length - 1]
-  const lastMessageContent = lastMessage.content + resultString
-  const lastDataWithoutLastMessage = messages.slice(0, messages.length - 1)
-
+  const prompt = generatePrompt(messages, lastMessageContent, results.matches);
 
   const completion = await streamText({
-    model: model,
+    model: 'text-embedding-004',
     system: systemPrompt,
-    messages: [
-      ...lastDataWithoutLastMessage,
-      {
-        content: lastMessageContent, 
-        role: lastMessage.role
-      }
-    ]
+    prompt: prompt,
+    role: lastMessage.role    
   })
-
-
 
   const stream = createStreamableValue(completion.textStream)
   return stream.value
+}
+
+function generatePrompt(messages: CoreMessage[], lastMessageContent: string, pineconeMatches: any[]) {
+  // Build a prompt string summarizing the conversation history, user input, and relevant context from Pinecone
+  let prompt = "Professor: ";
+  messages.forEach(message => prompt += `${message.content}\nProfessor: `);
+  prompt += `${lastMessageContent}\n\n`;
+
+  // Add relevant context from Pinecone results
+  pineconeMatches.forEach(match => {
+    prompt += `Context: ${match.metadata.context}\n`;
+  });
+
+  return prompt;
 }

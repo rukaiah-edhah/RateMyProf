@@ -11,9 +11,11 @@
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^0.0.19",
     "@ai-sdk/google": "^0.0.43",
+    "@clerk/nextjs": "^5.3.3",
     "@google/generative-ai": "^0.17.0",
     "@pinecone-database/pinecone": "^3.0.1",
     "ai": "^3.3.14",
+    "cheerio": "^1.0.0",
     "next": "14.2.6",
     "react": "^18",
     "react-dom": "^18"
