@@ -2,7 +2,7 @@
 import { createStreamableValue } from "ai/rsc";
 import { CoreMessage, streamText } from "ai";
 import { Pinecone } from "@pinecone-database/pinecone";
-import { google } from "@ai-sdk/google";
+import OpenAI from 'openai'
 
 const systemPrompt = 
 `
@@ -40,45 +40,48 @@ export async function continueConversation(messages: CoreMessage[]){
   })
 
   const index = pc.index('rag').namespace('ns1')
+  const openai = new OpenAI()
 
-  const lastMessage = messages[messages.length - 1]
-  const lastMessageContent: any = lastMessage.content
-
-  const model =  google.embedding('text-embedding-004', {
-    outputDimensionality: 1536,
+  const text = messages[messages.length - 1].content
+  const embedding = await OpenAI.Embeddings.create({
+    model: 'text-embedding-3-small',
+    input: text,
+    encoding_format: 'float'
   })
-  
-  const embedding = await model.doEmbed(lastMessageContent)
 
   const results = await index.query({
     topK: 3,
     includeMetadata: true,
-    vector: embedding,
+    vector: embedding.data[0].embedding,
   })
 
-  const prompt = generatePrompt(messages, lastMessageContent, results.matches);
+  let resultString = 
+  '\n\nReturned results from vector db (done automatically):'
 
-  const completion = await streamText({
-    model: 'text-embedding-004',
-    system: systemPrompt,
-    prompt: prompt,
-    role: lastMessage.role    
+  results.matches.forEach((match) => {
+    resultString += `\n
+    Professor: ${match.id}
+    Review: ${match.metadata?.stars}
+    Subject: ${match.metadata?.subject}
+    Stars: ${match.metadata?.stars}
+    \n\n
+    `
+  })
+  
+  const lastMessage = messages[messages.length - 1]
+  const lastMessageContent = lastMessage.content + resultString
+  const lastDataWithoutLastMessage = messages.slice(0, messages.length - 1)
+
+  const completion = await openai.chat.completions.create({
+    messages: [
+      { role: 'system', content: systemPrompt},
+      ...lastDataWithoutLastMessage,
+      { role: 'user', content: lastMessageContent}
+    ],
+    model: 'gpt-4o-mini',
+    stream: true
   })
 
-  const stream = createStreamableValue(completion.textStream)
+  const stream = createStreamableValue(completion)
   return stream.value
-}
-
-function generatePrompt(messages: CoreMessage[], lastMessageContent: string, pineconeMatches: any[]) {
-  // Build a prompt string summarizing the conversation history, user input, and relevant context from Pinecone
-  let prompt = "Professor: ";
-  messages.forEach(message => prompt += `${message.content}\nProfessor: `);
-  prompt += `${lastMessageContent}\n\n`;
-
-  // Add relevant context from Pinecone results
-  pineconeMatches.forEach(match => {
-    prompt += `Context: ${match.metadata.context}\n`;
-  });
-
-  return prompt;
 }
