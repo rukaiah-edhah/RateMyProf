@@ -1,8 +1,10 @@
 'use server'
-import { createStreamableValue } from "ai/rsc";
+import { createAI, createStreamableValue } from "ai/rsc";
 import { CoreMessage, streamText } from "ai";
 import { Pinecone } from "@pinecone-database/pinecone";
-import OpenAI from 'openai'
+import OpenAI from "openai";
+import { OpenAIApi, Configuration } from 'openai-edge'
+import { openai } from '@ai-sdk/openai'
 
 const systemPrompt = 
 `
@@ -32,27 +34,36 @@ Professor B - Rating: 4.6/5. Highly rated for one-on-one support and clear expla
 
 Professor C - Rating: 4.5/5. Students appreciate the real-world applications provided in calculus lectures, and the professor's open-door policy for extra help.
 
+If the user decides to ask about other information that is not about Professors, respond to them with "Sorry, I don't have any information about that."
+
 `
 
-export async function continueConversation(messages: CoreMessage[]){
+export async function continueConversation(messages: CoreMessage[]) {
   const pc = new Pinecone({
     apiKey: process.env.PINECONE_API_KEY as string
   })
+  const config = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY
+  })
+  const ai = new OpenAIApi(config)
 
   const index = pc.index('rag').namespace('ns1')
-  const openai = new OpenAI()
+  const _openai = new OpenAI()
 
   const text = messages[messages.length - 1].content
-  const embedding = await OpenAI.Embeddings.create({
+  const embedding = await _openai.embeddings.create({
     model: 'text-embedding-3-small',
-    input: text,
-    encoding_format: 'float'
+    input: text as string,
   })
+
+  console.log('Results:', embedding)
+
+  const embeddingVector = embedding.data[0].embedding
 
   const results = await index.query({
     topK: 3,
     includeMetadata: true,
-    vector: embedding.data[0].embedding,
+    vector: embeddingVector,
   })
 
   let resultString = 
@@ -72,14 +83,15 @@ export async function continueConversation(messages: CoreMessage[]){
   const lastMessageContent = lastMessage.content + resultString
   const lastDataWithoutLastMessage = messages.slice(0, messages.length - 1)
 
-  const completion = await openai.chat.completions.create({
-    messages: [
-      { role: 'system', content: systemPrompt},
-      ...lastDataWithoutLastMessage,
-      { role: 'user', content: lastMessageContent}
-    ],
-    model: 'gpt-4o-mini',
-    stream: true
+  const completion = await streamText({
+    model: openai('gpt-4o-mini'),
+    // messages: [
+    //   { role: 'system', content: systemPrompt},
+    //   ...lastDataWithoutLastMessage,
+    //   { role: 'user', content: lastMessageContent},
+    // ],
+    messages,
+    system: systemPrompt,
   })
 
   const stream = createStreamableValue(completion)

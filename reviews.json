@@ -1,0 +1,130 @@
+{
+  "reviews": [
+    {
+      "professor": "Dr. Emily Roberts",
+      "subject": "Introduction to Psychology",
+      "stars": 5,
+      "review": "Dr. Roberts is fantastic! Her lectures are engaging and she makes complex topics easy to understand."
+    },
+    {
+      "professor": "Dr. John Smith",
+      "subject": "Calculus I",
+      "stars": 3,
+      "review": "Dr. Smith is knowledgeable but his teaching style is a bit dry. The material can be hard to follow."
+    },
+    {
+      "professor": "Dr. Laura Johnson",
+      "subject": "Modern History",
+      "stars": 4,
+      "review": "Dr. Johnson is passionate about history and brings a lot of energy to her classes. However, her exams can be quite challenging."
+    },
+    {
+      "professor": "Dr. Michael Brown",
+      "subject": "Organic Chemistry",
+      "stars": 2,
+      "review": "Dr. Brown's lectures are hard to follow and he doesn't provide enough examples. The subject is difficult enough without extra obstacles."
+    },
+    {
+      "professor": "Dr. Alice Davis",
+      "subject": "Computer Science Fundamentals",
+      "stars": 5,
+      "review": "Dr. Davis is an excellent instructor with clear explanations and a lot of practical examples. Highly recommend!"
+    },
+    {
+      "professor": "Dr. Robert Wilson",
+      "subject": "Philosophy",
+      "stars": 4,
+      "review": "Dr. Wilson is very insightful and encourages deep thinking, but sometimes his lectures can be a bit disorganized."
+    },
+    {
+      "professor": "Dr. Sarah Lee",
+      "subject": "Biology",
+      "stars": 3,
+      "review": "Dr. Lee is good at explaining the basics but tends to rush through more complex topics. Her labs are well-organized though."
+    },
+    {
+      "professor": "Dr. James Clark",
+      "subject": "World Literature",
+      "stars": 5,
+      "review": "Dr. Clark is an amazing professor with a great sense of humor. His classes are always stimulating and thought-provoking."
+    },
+    {
+      "professor": "Dr. Patricia Martinez",
+      "subject": "Economics",
+      "stars": 3,
+      "review": "Dr. Martinez covers the material thoroughly but her lectures can be monotonous. A bit more enthusiasm would help."
+    },
+    {
+      "professor": "Dr. William White",
+      "subject": "Environmental Science",
+      "stars": 4,
+      "review": "Dr. White is very knowledgeable and passionate about the subject. His assignments are practical and interesting."
+    },
+    {
+      "professor": "Dr. Jessica Taylor",
+      "subject": "Statistics",
+      "stars": 2,
+      "review": "Dr. Taylor's teaching methods are unclear and she doesn't provide enough feedback on assignments."
+    },
+    {
+      "professor": "Dr. David Anderson",
+      "subject": "Art History",
+      "stars": 5,
+      "review": "Dr. Anderson is incredibly enthusiastic and makes art history come alive. His lectures are always engaging and insightful."
+    },
+    {
+      "professor": "Dr. Karen Thomas",
+      "subject": "Microeconomics",
+      "stars": 3,
+      "review": "Dr. Thomas is knowledgeable but her lectures are sometimes hard to follow. The course could benefit from more structured materials."
+    },
+    {
+      "professor": "Dr. Charles Lewis",
+      "subject": "Physics",
+      "stars": 4,
+      "review": "Dr. Lewis is very thorough and provides a lot of real-world applications. His exams can be challenging but fair."
+    },
+    {
+      "professor": "Dr. Lisa Harris",
+      "subject": "Sociology",
+      "stars": 4,
+      "review": "Dr. Harris is engaging and her lectures are filled with relevant examples. The course workload is manageable."
+    },
+    {
+      "professor": "Dr. Richard Allen",
+      "subject": "Political Science",
+      "stars": 5,
+      "review": "Dr. Allen is one of the best professors I've had. His classes are dynamic and he fosters a great classroom discussion environment."
+    },
+    {
+      "professor": "Dr. Angela Scott",
+      "subject": "Calculus II",
+      "stars": 2,
+      "review": "Dr. Scott's explanations are often confusing and she doesn't offer enough help during office hours."
+    },
+    {
+      "professor": "Dr. Thomas Wright",
+      "subject": "Genetics",
+      "stars": 4,
+      "review": "Dr. Wright is very passionate about the subject and provides a lot of valuable insights. The pace of the class is a bit fast though."
+    },
+    {
+      "professor": "Dr. Nancy Hall",
+      "subject": "Creative Writing",
+      "stars": 5,
+      "review": "Dr. Hall is incredibly supportive and offers great feedback on writing assignments. Her classes are inspiring and motivating."
+    },
+    {
+      "professor": "Dr. George Young",
+      "subject": "Theology",
+      "stars": 3,
+      "review": "Dr. Young is knowledgeable but his teaching style can be quite traditional. The class could use more interactive elements."
+    },
+    {
+      "professor": "Dr. Megan King",
+      "subject": "Anthropology",
+      "stars": 4,
+      "review": "Dr. King presents the material in a very accessible way and her fieldwork examples are fascinating. The course is engaging overall."
+    }
+  ]
+}
