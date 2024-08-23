@@ -3,7 +3,7 @@ load_dotenv()
 # import pinecone
 # from langchain.vectorstores import pinecone
 from pinecone.grpc import PineconeGRPC as Pinecone
-from gemini import Gemini
+from openai import OpenAI
 import os
 import json
 
@@ -27,7 +27,7 @@ pc.create_index(
 data = json.load(open("reviews.json"))
 
 processed_data = []
-client = Gemini(auto_cookies=True)
+client = OpenAI(auto_cookies=True)
 
 # Create embeddings for each review
 for review in data["reviews"]:
