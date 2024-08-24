@@ -8,15 +8,18 @@ import { readStreamableValue } from "ai/rsc";
 import { CoreMessage } from "ai";
 import { continueConversation } from "@/app/actions";
 import ReactMarkdown from 'react-markdown';
-
+import { useUser } from "@clerk/nextjs";
+import { SignOutButton } from "@clerk/nextjs";
 
 
 export function ChatbotUI(): JSX.Element {
+  const { user } = useUser()
   const [messages, setMessages] = useState<CoreMessage[]>([
-    { role: "assistant", content: "Hello, how can I help you today?" },
+    { role: "assistant", content: `Hello, how can I help you today?` },
   ]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,8 +51,14 @@ export function ChatbotUI(): JSX.Element {
 
   return (
     <div className="flex flex-col h-screen w-full mx-auto bg-background rounded-2xl shadow-lg overflow-hidden">
-      <header className="bg-primary text-primary-foreground px-6 py-4 flex items-center gap-4">
+      <header className="bg-primary text-primary-foreground px-6 py-4 flex items-center gap-4 justify-between">
         <h2 className="text-lg font-medium">Ms. Ratewell</h2>
+        <h2 className="text-lg font-medium">Welcome, {user?.firstName}</h2>
+        <SignOutButton>
+          <button className="bg-primary text-primary-foreground px-4 py-2 rounded">
+            Logout
+          </button>
+        </SignOutButton>
       </header>
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.map((message, index) => (

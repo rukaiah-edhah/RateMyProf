@@ -5,6 +5,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 import { OpenAIApi, Configuration } from 'openai-edge'
 import { openai } from '@ai-sdk/openai'
+import { currentUser } from "@clerk/nextjs/server";
 
 const systemPrompt = 
 `
@@ -34,7 +35,7 @@ Professor B - Rating: 4.6/5. Highly rated for one-on-one support and clear expla
 
 Professor C - Rating: 4.5/5. Students appreciate the real-world applications provided in calculus lectures, and the professor's open-door policy for extra help.
 
-
+Also, please welcome the user by their name
 `
 
 export async function continueConversation(messages: CoreMessage[]) {
