@@ -1,6 +1,6 @@
 # Rate My Professor AI Assistant
 
-In this project we learned how to use Retrieval-Augmented Generation (RAG) to improve AI-powered applications to provide accurate, context-aware responses. Built using **Next.js**, **Pinecone**, and the **OpenAI API**.
+In this project we learned how to use Retrieval-Augmented Generation (RAG) to improve AI-powered applications to provide accurate, context-aware responses. Built using **Next.js**, **Clerk for auth**, **Pinecone**, and the **OpenAI API**.
 
 <div align="center">
     <a href="https://rate-my-prof-hge3dl7jf-rukaiahs-projects.vercel.app/">
