@@ -55,8 +55,6 @@ export async function continueConversation(messages: CoreMessage[]) {
     input: text as string,
   })
 
-  console.log('Results:', embedding)
-
   const embeddingVector = embedding.data[0].embedding
 
   const results = await index.query({

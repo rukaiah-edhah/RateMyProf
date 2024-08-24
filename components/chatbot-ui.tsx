@@ -37,9 +37,9 @@ export function ChatbotUI(): JSX.Element {
     const result = await continueConversation(newMessages);
 
     for await (const content of readStreamableValue(result)) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "assistant", content: content as unknown as string },
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: content as string },
       ]);
     }
   };
@@ -74,7 +74,7 @@ export function ChatbotUI(): JSX.Element {
                   : "bg-muted text-muted-foreground"
               } rounded-lg p-4 max-w-[75%]`}
             >
-              <p>{String(message.content)}</p>
+              <p>{`${String(message.content)}`}</p>
             </div>
             {message.role === "user" && (
               <Avatar className="shrink-0">
