@@ -1,5 +1,5 @@
 'use server'
-import { createAI, createStreamableValue } from "ai/rsc";
+import { createStreamableValue } from "ai/rsc";
 import { CoreMessage, streamText } from "ai";
 import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
@@ -34,7 +34,6 @@ Professor B - Rating: 4.6/5. Highly rated for one-on-one support and clear expla
 
 Professor C - Rating: 4.5/5. Students appreciate the real-world applications provided in calculus lectures, and the professor's open-door policy for extra help.
 
-If the user decides to ask about other information that is not about Professors, respond to them with "Sorry, I don't have any information about that."
 
 `
 
@@ -85,15 +84,13 @@ export async function continueConversation(messages: CoreMessage[]) {
 
   const completion = await streamText({
     model: openai('gpt-4o-mini'),
-    // messages: [
-    //   { role: 'system', content: systemPrompt},
-    //   ...lastDataWithoutLastMessage,
-    //   { role: 'user', content: lastMessageContent},
-    // ],
-    messages,
-    system: systemPrompt,
+    messages: [
+      { role: 'system', content: systemPrompt},
+      ...lastDataWithoutLastMessage,
+      { role: 'user', content: lastMessageContent},
+    ],
   })
 
-  const stream = createStreamableValue(completion)
+  const stream = createStreamableValue(completion.textStream)
   return stream.value
 }

@@ -3,14 +3,26 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { continueConversation } from "@/app/actions";
+import { useState, useEffect, useRef } from "react";
 import { readStreamableValue } from "ai/rsc";
 import { CoreMessage } from "ai";
+import { continueConversation } from "@/app/actions";
+
 
 export function ChatbotUI(): JSX.Element {
-  const [messages, setMessages] = useState<CoreMessage[]>([]);
+  const [messages, setMessages] = useState<CoreMessage[]>([
+    { role: "assistant", content: "Hello, how can I help you today?" },
+  ]);
   const [input, setInput] = useState("");
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages])
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,6 +84,7 @@ export function ChatbotUI(): JSX.Element {
             )}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <form onSubmit={handleSendMessage} className="bg-muted px-6 py-4 flex items-center gap-4">
         <Input
