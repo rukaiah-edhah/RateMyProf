@@ -31,7 +31,7 @@ export function ChatInput({
             ...newMessages,
             {
               role: 'assistant',
-              content: content as string
+              content: content as unknown as string
             }
           ])
         }
