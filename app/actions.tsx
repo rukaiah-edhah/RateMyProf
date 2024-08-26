@@ -5,7 +5,8 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import OpenAI from "openai";
 import { OpenAIApi, Configuration } from 'openai-edge'
 import { openai } from '@ai-sdk/openai'
-import { currentUser } from "@clerk/nextjs/server";
+import * as cheerio from 'cheerio'
+import axios from "axios";
 
 const systemPrompt = 
 `
@@ -50,7 +51,11 @@ export async function continueConversation(messages: CoreMessage[]) {
   const index = pc.index('rag').namespace('ns1')
   const _openai = new OpenAI()
 
-  const text = messages[messages.length - 1].content
+  let text = messages[messages.length - 1].content
+  if (getUrls(text).length > 0){
+    text = await upsertPC(text, _openai, index)
+  }
+
   const embedding = await _openai.embeddings.create({
     model: 'text-embedding-3-small',
     input: text as string,
@@ -92,4 +97,83 @@ export async function continueConversation(messages: CoreMessage[]) {
 
   const stream = createStreamableValue(completion.textStream)
   return stream.value
+}
+
+function getUrls(text: any){
+  const url_regex = /https:\/\/www\.ratemyprofessors\.com\/professor\/\d+/g
+  return text.match(url_regex) || [];
+}
+
+function replaceUrlsInText(text: any, urls: any, processed_data: any){
+  for (let i = 0; i < urls.length; i++){
+    text = text.replace(
+      urls[i],
+      `${processed_data[i].id} with ${processed_data[i].metadata['rating']} star rating in ${processed_data[i].metadata['department']}}`
+    );
+  }
+  return text;
+}
+
+async function scrape_webpage(url: string){
+  try {
+    const { data: html } = await axios.get(url);
+    const $ = cheerio.load(html)
+
+    const name = $('div.NameTitle__Name-dowf0z-0 span').first().text().trim();
+    const lastName = $('div.NameTitle__LastNameWrapper-dowf0z-2').first().text().trim();
+    const fullName = `${name} ${lastName}`;
+
+    const rating = $('div.RatingValue__Numerator-qw8sqy-2.liyUjw').text().trim();
+    const reviews = $('div.Comments__StyledComments-dzzyvm-0').text().trim();
+    const departmentName = $('a.TeacherDepartment__StyledDepartmentLink-fl79e8-0').text().trim();
+
+    return {
+      name: fullName,
+      rating: rating,
+      review: reviews,
+      department: departmentName
+    }
+
+  } catch (error) {
+    console.error('Failed to scrape webpage:', error);
+    return null;
+  }
+}
+
+async function upsertPC(text: any, client: any, index: any){
+  const urls: any = getUrls(text)
+  const processed_data: any[] = []
+
+  for (const url of urls){
+    const data: any = await scrape_webpage(url);
+    if (!data) continue;
+
+    try {
+      const res = await client.embeddings.create({
+        input: data.review as string,
+        model: 'text-embedding-3-small'
+      })
+
+      const embedding = res.data[0].embedding
+      processed_data.push({
+        id: data.name,
+        values: embedding,
+        metadata: {
+          rating: data.rating,
+          review: data.review,
+          department: data.department
+        }
+      })
+    } catch (error) {
+      console.error('Failed to scrape webpage:', error);
+    }
+  }
+
+  try {
+    await index.upsert(processed_data);
+    return replaceUrlsInText(text, urls, processed_data)
+  } catch (error) {
+    console.error('Failed to upsert data:', error);
+    return null;
+  }
 }
