@@ -3,7 +3,7 @@
 In this project we learned how to use Retrieval-Augmented Generation (RAG) to improve AI-powered applications to provide accurate, context-aware responses. Built using **Next.js**, **Clerk for auth**, **Pinecone**, and the **OpenAI API**.
 
 <div align="center">
-    <a href="https://rate-my-prof-hge3dl7jf-rukaiahs-projects.vercel.app/">
+    <a href="https://rate-my-prof-plum.vercel.app">
         <img src="./public/preview.png" align="center" width="1000px" alt="Rate My Professor AI Assistant Preview">
     </a>
 </div>
@@ -17,7 +17,7 @@ In this project we learned how to use Retrieval-Augmented Generation (RAG) to im
 ### Chat Interface Example
 
 <div align="center">
-    <a href="https://rate-my-prof-hge3dl7jf-rukaiahs-projects.vercel.app/">
+    <a href="https://rate-my-prof-plum.vercel.app">
         <img src="./public/chat.png" align="center" width="1000px" alt="Rate My Professor AI Assistant Chat Example">
     </a>
 </div>
