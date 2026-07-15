@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^0.0.19",
@@ -24,11 +24,11 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.429.0",
-    "next": "14.2.6",
+    "next": "16.2.10",
     "openai": "^4.56.0",
     "openai-edge": "^1.2.2",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
     "react-markdown": "^9.0.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
@@ -36,11 +36,15 @@
   "devDependencies": {
     "typescript": "^5",
     "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.6"
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10"
+  },
+  "overrides": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3"
   }
 }
