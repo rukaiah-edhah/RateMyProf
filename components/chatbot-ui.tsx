@@ -165,10 +165,10 @@ export function ChatbotUI() {
                 </Avatar>
               )}
               <div
-                className={`max-w-[80%] px-4 py-3 text-sm ${
+                className={`max-w-[80%] rounded-lg px-5 py-3 text-sm ${
                   message.role === "user"
-                    ? "rounded-2xl rounded-br-sm bg-primary text-primary-foreground"
-                    : "rounded-2xl rounded-bl-sm border border-border bg-card text-card-foreground"
+                    ? "bg-primary text-primary-foreground"
+                    : "border border-border bg-card text-card-foreground"
                 }`}
               >
                 <MessageParts message={message} />
@@ -191,7 +191,7 @@ export function ChatbotUI() {
                 />
                 <AvatarFallback>R</AvatarFallback>
               </Avatar>
-              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-sm border border-border bg-card px-4 py-4">
+              <div className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-5 py-4">
                 <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:0ms]" />
                 <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:150ms]" />
                 <span className="h-2 w-2 animate-pulse rounded-full bg-muted-foreground [animation-delay:300ms]" />
