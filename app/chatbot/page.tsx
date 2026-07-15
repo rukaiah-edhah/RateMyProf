@@ -7,15 +7,17 @@ export default async function Chatbot() {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100">
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center rounded-2xl">
-          <h2 className="text-2xl font-semibold mb-4">Access Restricted</h2>
-          <p className="text-gray-700 mb-4">
-            You must be signed in to access the chat.
+      <div className="flex h-dvh items-center justify-center bg-background px-4">
+        <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-8 text-center shadow-xl">
+          <h2 className="text-2xl font-semibold text-foreground">
+            Access Restricted
+          </h2>
+          <p className="mb-6 mt-3 text-sm text-muted-foreground">
+            You must be signed in to chat with Ms. Ratewell.
           </p>
           <Link
             href="/login"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="inline-block rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Sign In
           </Link>
@@ -25,10 +27,8 @@ export default async function Chatbot() {
   }
 
   return (
-    <>
-      <main className="flex flex-col items-center justify-between min-h-screen w-full">
-        <ChatbotUI />
-      </main>
-    </>
+    <main className="h-dvh w-full">
+      <ChatbotUI />
+    </main>
   );
 }

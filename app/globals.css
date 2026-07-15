@@ -1,7 +1,6 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-*: initial;
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -72,6 +71,82 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-border);
   }
+}
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 210 20% 96%;
+  --card: 240 8% 7%;
+  --card-foreground: 210 20% 96%;
+  --popover: 240 8% 7%;
+  --popover-foreground: 210 20% 96%;
+  --primary: 262 83% 66%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 6% 12%;
+  --secondary-foreground: 210 15% 85%;
+  --muted: 240 6% 12%;
+  --muted-foreground: 240 5% 64%;
+  --accent: 240 6% 16%;
+  --accent-foreground: 210 20% 96%;
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 6% 16%;
+  --input: 240 6% 14%;
+  --ring: 262 83% 66%;
+  --radius: 0.75rem;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Markdown inside assistant chat bubbles — preflight strips these defaults. */
+.chat-markdown p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+.chat-markdown p:first-child {
+  margin-top: 0;
+}
+.chat-markdown p:last-child {
+  margin-bottom: 0;
+}
+.chat-markdown ul,
+.chat-markdown ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+.chat-markdown ul {
+  list-style-type: disc;
+}
+.chat-markdown ol {
+  list-style-type: decimal;
+}
+.chat-markdown li {
+  margin: 0.25rem 0;
+}
+.chat-markdown strong {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.chat-markdown h1,
+.chat-markdown h2,
+.chat-markdown h3 {
+  font-weight: 600;
+  margin: 0.75rem 0 0.375rem;
+  color: hsl(var(--foreground));
+}
+.chat-markdown code {
+  background: hsl(var(--secondary));
+  border-radius: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.875em;
+}
+.chat-markdown a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
 }
